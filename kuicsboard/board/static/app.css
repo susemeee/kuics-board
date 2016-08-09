@@ -13,7 +13,7 @@ body .container {
     margin-bottom: 50px;
 }
 
-#items .box {
+#items .box strong {
     font-size: 1.2em;
 }
 
@@ -46,4 +46,8 @@ div.hello {
 
 .fa {
     vertical-align: middle;
+}
+
+.content {
+    word-wrap: break-word;
 }

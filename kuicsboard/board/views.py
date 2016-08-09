@@ -63,11 +63,14 @@ def update(request, board_id):
 
 def _auth(request, id, pw):
     user = authenticate(username=id, password=pw)
-    if user and user.is_active:
-        login(request, user)
-        return True
+    if user:
+        if user.is_staff:
+            return '관리자 계정으로 로그인할 수 없습니다.'
+        elif user.is_active:
+            login(request, user)
+            return None
     else:
-        return False
+        return '올바르지 않은 계정입니다.'
 
 
 def auth(request):
@@ -88,8 +91,8 @@ def auth_submit(request):
         request.POST.get('password')
     )
 
-    if not auth_result:
-        messages.error(request, '올바르지 않은 계정입니다.')
+    if auth_result is not None:
+        messages.error(request, auth_result)
 
     return redirect('board:list')
 
