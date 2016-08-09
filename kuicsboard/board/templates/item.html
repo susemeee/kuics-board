@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container view-item">
+    <div class="box content">
+        <h1>{{ item.title }}</h1>
+        <h5 class="right">{{ item.written_by.username }}님 작성</h5>
+        <h5 class="right">{{ item.created_at }}</h5>
+        <hr>
+        <div class="content">
+            {{ item.content|linebreaks }}
+        </div>
+    </div>
+    <div class="control is-grouped">
+        <p class="control">
+            <a href="#" class="button is-primary" onclick="history.go(-1)">뒤로 가기</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

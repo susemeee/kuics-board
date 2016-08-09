@@ -14,7 +14,15 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.shortcuts import redirect
+from board import urls as board_urls
+
+
+def board_root_view(request):
+    return redirect('board:list')
 
 urlpatterns = [
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^!/administer/', include(admin.site.urls)),
+    url(r'^board/', include(board_urls, namespace='board')),
+    url(r'^$', board_root_view)
 ]

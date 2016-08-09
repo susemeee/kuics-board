@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div id="header">
+        <h1 class="title"><a href="{% url 'board:list' %}">KUICS Board</a></h1>
+        <h2 class="subtitle">글쓴이 로그인</h2>
+    </div>
+    <form action="{% url 'board:auth_submit' %}" method="POST">
+        {% csrf_token %}
+        <label class="label">글쓴이 이름</label>
+        <p class="control">
+            <input class="input" type="text" name="username" placeholder="이름">
+        </p>
+        <label class="label">비밀번호</label>
+        <p class="control">
+            <input class="input" type="password" name="password" placeholder="비밀번호">
+        </p>
+        <p class="control">
+            <button type="submit" class="button is-primary">글쓴이 로그인</button>
+        </p>
+    </form>
+</div>
+{% endblock %}

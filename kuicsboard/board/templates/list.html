@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div id="header">
+        <h1 class="title"><a href="{% url 'board:list' %}">KUICS Board</a></h1>
+        <h2 class="subtitle">하고 싶은 말을 자유롭게 남기세요!</h2>
+    </div>
+    {% include 'messages.html' %}
+    <div id="items">
+        {% for item in items %}
+        <div class="box">
+            <article class="media">
+                <div class="media-content">
+                    <div class="content">
+                        <a href="{% url 'board:view' item.id %}" class="content-link">
+                            <strong>{{ item.title|truncatechars:50 }}</strong> <small>{{ item.written_by.username }}님</small> <small>{{ item.created_at }}</small>
+                            {% if item.private %}<i class="fa fa-lock" aria-hidden="true"></i>{% endif %}
+                            <br>
+                            <p>{{ item.content|truncatechars:100 }}</p>
+                        </a>
+                    </div>
+                    <nav class="level">
+                    </nav>
+                </div>
+            </article>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="control is-grouped">
+        <p class="control">
+            <a href="{% url 'board:add' %}" class="button is-primary">새글 쓰기</a>
+        </p>
+        <p class="control">
+            {% if not request.user.is_authenticated %}
+            <a href="{% url 'board:auth' %}" class="button">사용자 로그인</a>
+            {% else %}
+            <div class="hello">안녕하세요 {{ request.user.username }}님!</div>
+            <a href="{% url 'board:auth_logout' %}" class="button is-link">로그아웃</a>
+            {% endif %}
+        </p>
+    </div>
+    <nav class="pagination">
+        <ul>
+            {% if items.has_previous %}
+            {% if items.number > 2 %}
+            <li>
+                <a class="button" href="?page=1">1</a>
+            </li>
+            <li>
+                <span>...</span>
+            </li>
+            {% endif %}
+            <li>
+                <a class="button" href="?page={{ items.number|add:-1 }}">{{ items.number|add:-1 }}</a>
+            </li>
+            {% endif %}
+            <li>
+                <a class="button is-primary" href="?page={{ items.number }}">{{ items.number }}</a>
+            </li>
+            {% if items.has_next %}
+            <li>
+                <a class="button" href="?page={{ items.number|add:1 }}">{{ items.number|add:1 }}</a>
+            </li>
+            {% if item_page_offset > 1 %}
+            <li>
+                <span>...</span>
+            </li>
+            <li>
+                <a class="button" href="?page={{ items.paginator.num_pages }}">{{ items.paginator.num_pages }}</a>
+            </li>
+            {% endif %}
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+{% endblock %}
