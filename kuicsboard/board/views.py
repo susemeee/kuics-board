@@ -16,7 +16,7 @@ NUM_ITEMS = 8
 
 def list(request):
     page = request.GET.get('page', 1)
-    paginator = Paginator(BoardItem.objects.all(), NUM_ITEMS)
+    paginator = Paginator(BoardItem.objects.all().order_by('-created_at'), NUM_ITEMS)
 
     try:
         items = paginator.page(page)
